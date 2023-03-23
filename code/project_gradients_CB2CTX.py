@@ -6,7 +6,7 @@ dconn_file = 'HCP_S1200_1003_rfMRI_MSMAll_groupPCA_d4500ROW_zcorr.CBbyCTX.dconn.
 dconn = nib.load(dconn_file).get_data()
 emb = np.load('cosine_affinity_CBbyCTX_emb.npy')
 #emb.shape = (1033,10)
-emb_grad = emb[:,2]
+emb_grad = emb[:,0]
 # flip sign
 #emb_g1 = emb_g1*-1
 
@@ -18,4 +18,4 @@ tmp_cifti = nib.cifti2.load('/cluster/iaslab/gradient/ROIs/100307_tfMRI_MOTOR_le
 data = tmp_cifti.get_data() * 0
 data[0,:] = weighted_dconn
 img = nib.cifti2.Cifti2Image(data, nib.cifti2.Cifti2Header(tmp.header.matrix))
-img.to_filename('CBbyCTX.weighted_connectivity_CTX-LR.g3.cosine.dscalar.nii')
+img.to_filename('CBbyCTX.weighted_connectivity_CTX-LR.g1.cosine.dscalar.nii')
