@@ -7,7 +7,7 @@ dconn_file = 'HCP_S1200_1003_rfMRI_MSMAll_groupPCA_d4500ROW_zcorr.HIPPObyCTX.dco
 dconn = nib.load(dconn_file).get_fdata()
 emb = np.load('normangle_affinity_HIPPObyCTX_emb.npy')
 #emb.shape = (1033,10)
-emb_g1 = emb[:,1]
+emb_g1 = emb[:,0]
 # flip sign
 #emb_g1 = emb_g1*-1
 
@@ -19,16 +19,4 @@ tmp_cifti = nib.cifti2.load('/cluster/iaslab/gradient/ROIs/100307_tfMRI_MOTOR_le
 data = tmp_cifti.get_data() * 0
 data[0,:] = weighted_dconn
 img = nib.cifti2.Cifti2Image(data, nib.cifti2.Cifti2Header(tmp.header.matrix))
-img.to_filename('HIPPObyCTX.weighted_connectivity_CTX-LR.g2.normangle.dscalar.nii')
-
-
-# zxfm G3
-emb_g3 = emb[:,2]
-emb_g3[0:511,] = st.zscore(emb_g3[0:511,])
-emb_g3[511:,] = st.zscore(emb_g3[511:,])
-
-weighted_dconn = np.dot(emb_g3,dconn)
-data = tmp_cifti.get_data() * 0
-data[0,:] = weighted_dconn
-img = nib.cifti2.Cifti2Image(data, nib.cifti2.Cifti2Header(tmp.header.matrix))
-img.to_filename('HIPPObyCTX.weighted_connectivity_CTX-LR.g3.normangle.dscalar.nii')
+img.to_filename('HIPPObyCTX.weighted_connectivity_CTX-LR.g1.normangle.dscalar.nii')
